@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lista de Pacientes - MedAnalise</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#195de6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1c212c",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased overflow-hidden">
+    <div class="flex h-screen w-full">
+        <aside
+            class="hidden md:flex flex-col w-72 h-full bg-surface-light dark:bg-surface-dark border-r border-slate-200 dark:border-slate-800 transition-colors duration-300 shrink-0">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-12 shadow-sm relative overflow-hidden shrink-0"
+                        data-alt="Receptionist profile picture"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCU2IzyKn1tloqJE8DcJDZGpugrMjvw7N2cIpLqY5mHxp2XtODn3f_IQHKYan9fW9TyyMeUGcwSSY9UhzvcAgDeRecPOF70IaAZHGxaabL0bj6WssOGUyA8P4Gaa00rr7z0HhQchKv7FQCwc-AlJT5H26Dey_9UZQOZguYHQfUDzT15_kGOCCW3tsiStiY4Ns6NptQ3KkRovCQQmI4W5AkMihgamImGkdhYBm8ENqf4KFmfFO4pMHxM0at2S5Ul1mMNaqPmWUjszNkU");'>
+                        <div class="absolute inset-0 bg-primary/10"></div>
+                    </div>
+                    <div class="flex flex-col overflow-hidden">
+                        <h1 class="text-slate-900 dark:text-white text-base font-bold leading-tight truncate">MedAnalise
+                        </h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-xs font-medium leading-normal truncate">Julia
+                            Santos Recepcionista</p>
+                    </div>
+                </div>
+                <nav class="flex flex-col gap-2">
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="text-sm font-medium">Início</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:bg-primary/20 dark:text-blue-400 transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined icon-fill">groups</span>
+                        <span class="text-sm font-medium">Lista de Pacientes</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="mt-auto p-6 border-t border-slate-200 dark:border-slate-800">
+                <button
+                    class="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors">
+                    <span class="material-symbols-outlined">logout</span>
+                    <a href="{% url 'logout' %}" class="text-sm font-medium">Sair</a>
+                </button>
+            </div>
+        </aside>
+        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+            <header class="w-full shrink-0 px-6 py-6 lg:px-10 bg-background-light dark:bg-background-dark z-10">
+                <div class="max-w-[1200px] mx-auto flex flex-col gap-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex flex-col gap-1">
+                            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
+                                Lista de Pacientes</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm sm:text-base">Gerencie a fila de
+                                análise de mamografias e diagnósticos.</p>
+                        </div>
+                        <button
+                            class="flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg shadow-lg shadow-blue-500/20 transition-all active:scale-95 shrink-0">
+                            <span class="material-symbols-outlined text-[20px]">add</span>
+                            <span class="text-sm font-bold">Novo Paciente</span>
+                        </button>
+                    </div>
+                    <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+                        <div class="relative w-full lg:w-96 group">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span
+                                    class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+                            </div>
+                            <input
+                                class="block w-full pl-10 pr-4 py-2.5 rounded-lg border-0 bg-white dark:bg-surface-dark text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-700 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition-shadow"
+                                placeholder="Pesquisar por nome, CPF ou prontuário..." type="text" />
+                        </div>
+                        <div
+                            class="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 w-full lg:w-auto scrollbar-hide">
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary text-white text-sm font-medium whitespace-nowrap shadow-sm">
+                                <span>Todos</span>
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium whitespace-nowrap transition-colors">
+                                <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                                <span>Pendente</span>
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium whitespace-nowrap transition-colors">
+                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                <span>Laudo Pronto</span>
+                            </button>
+                            <button
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium whitespace-nowrap transition-colors">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                <span>Prioridade Alta</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="flex-1 overflow-y-auto px-6 pb-6 lg:px-10">
+                <div class="max-w-[1200px] mx-auto flex flex-col h-full">
+                    <div
+                        class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark shadow-sm flex flex-col">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr
+                                        class="bg-slate-50 dark:bg-[#151a23] border-b border-slate-200 dark:border-slate-700">
+                                        <th
+                                            class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-24">
+                                            Prontuário</th>
+                                        <th
+                                            class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                            Paciente</th>
+                                        <th
+                                            class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                            Data Nasc.</th>
+                                        <th
+                                            class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                            Data Exame</th>
+                                        <th
+                                            class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                            Status</th>
+                                        <th
+                                            class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">
+                                            Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                    <tr
+                                        class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-mono text-slate-500 dark:text-slate-400">
+                                            #4829</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="size-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-300 font-bold text-xs mr-3">
+                                                    MS</div>
+                                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Maria
+                                                    Silva</div>
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            12/05/1965</td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            10/10/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-900/50">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
+                                                Pendente
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button
+                                                class="text-primary hover:text-blue-400 transition-colors font-semibold flex items-center justify-end gap-1 ml-auto">
+                                                Abrir
+                                                <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-mono text-slate-500 dark:text-slate-400">
+                                            #3920</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="size-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-300 font-bold text-xs mr-3">
+                                                    AC</div>
+                                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Ana
+                                                    Costa</div>
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            03/02/1978</td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            09/10/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 border border-green-200 dark:border-green-900/50">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                                Laudo Pronto
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button
+                                                class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white transition-colors font-medium flex items-center justify-end gap-1 ml-auto">
+                                                Ver Laudo
+                                                <span class="material-symbols-outlined text-[18px]">visibility</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer bg-red-50/50 dark:bg-red-900/10">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-mono text-slate-500 dark:text-slate-400">
+                                            #5591</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="size-8 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center text-pink-600 dark:text-pink-300 font-bold text-xs mr-3">
+                                                    CN</div>
+                                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Clara
+                                                    Nunes</div>
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            20/11/1980</td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            08/10/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 border border-red-200 dark:border-red-900/50">
+                                                <span class="material-symbols-outlined text-[14px]">priority_high</span>
+                                                Prioridade Alta
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button
+                                                class="text-primary hover:text-blue-400 transition-colors font-semibold flex items-center justify-end gap-1 ml-auto">
+                                                Analisar
+                                                <span
+                                                    class="material-symbols-outlined text-[18px]">medical_services</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-mono text-slate-500 dark:text-slate-400">
+                                            #1029</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="size-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-300 font-bold text-xs mr-3">
+                                                    BS</div>
+                                                <div class="text-sm font-semibold text-slate-900 dark:text-white">
+                                                    Beatriz Souza</div>
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            15/08/1970</td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            07/10/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-900/50">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
+                                                Pendente
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button
+                                                class="text-primary hover:text-blue-400 transition-colors font-semibold flex items-center justify-end gap-1 ml-auto">
+                                                Abrir
+                                                <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-mono text-slate-500 dark:text-slate-400">
+                                            #9921</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div
+                                                    class="size-8 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center text-teal-600 dark:text-teal-300 font-bold text-xs mr-3">
+                                                    FL</div>
+                                                <div class="text-sm font-semibold text-slate-900 dark:text-white">
+                                                    Fernanda Lima</div>
+                                            </div>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            22/01/1985</td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                            06/10/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 border border-green-200 dark:border-green-900/50">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                                Laudo Pronto
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button
+                                                class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white transition-colors font-medium flex items-center justify-end gap-1 ml-auto">
+                                                Ver Laudo
+                                                <span class="material-symbols-outlined text-[18px]">visibility</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="flex items-center justify-between px-6 py-4 bg-slate-50 dark:bg-[#151a23] border-t border-slate-200 dark:border-slate-700">
+                            <div class="flex flex-1 justify-between sm:hidden">
+                                <button
+                                    class="relative inline-flex items-center rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-surface-dark px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700">Anterior</button>
+                                <button
+                                    class="relative ml-3 inline-flex items-center rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-surface-dark px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700">Próximo</button>
+                            </div>
+                            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-slate-700 dark:text-slate-400">
+                                        Mostrando <span class="font-medium text-slate-900 dark:text-white">1</span> a
+                                        <span class="font-medium text-slate-900 dark:text-white">5</span> de <span
+                                            class="font-medium text-slate-900 dark:text-white">12</span> pacientes
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav aria-label="Pagination"
+                                        class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+                                        <button
+                                            class="relative inline-flex items-center rounded-l-md px-2 py-2 text-slate-400 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0">
+                                            <span class="sr-only">Anterior</span>
+                                            <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                                        </button>
+                                        <button aria-current="page"
+                                            class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</button>
+                                        <button
+                                            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-200 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0">2</button>
+                                        <button
+                                            class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-200 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0">3</button>
+                                        <button
+                                            class="relative inline-flex items-center rounded-r-md px-2 py-2 text-slate-400 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0">
+                                            <span class="sr-only">Próximo</span>
+                                            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
