@@ -37,3 +37,22 @@ def home(request):
         request,
         'geral/home.html', {'dados':page_obj  }
     )
+
+@login_required(login_url='login')
+def register(request):
+    if request.method   == 'POST':
+        name = request.POST['name']
+        phone = request.POST['phone']
+        email = request.POST['email']
+        cpf = request.POST['cpf']
+        birth = request.POST['birth']
+        sex = request.POST['sex']
+
+        cont = Patient(name=name, cpf=cpf, birth=birth, sex=sex, phone=phone, email=email)
+        cont.save()
+        return redirect('home')
+
+    return render(  
+        request,
+        'geral/register.html'
+    )

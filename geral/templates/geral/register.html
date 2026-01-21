@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cadastro de Pacientes (Recepcionista)</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --primary-color: #0d94b2;}
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d94b2",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                        "surface-dark": "#1e232e",
+                        "surface-darker": "#161b22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased overflow-hidden h-screen flex flex-col">
+<header class="flex shrink-0 items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#292e38] bg-white dark:bg-[#161b22] px-6 py-3">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-slate-200 dark:ring-slate-700 bg-slate-200 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-xl">face_3</span>
+</div>
+<div class="hidden sm:block">
+<p class="text-xs font-semibold dark:text-white">{{user.get_username}}</p>
+<p class="text-[10px] text-slate-500 dark:text-slate-400">Recepcionista</p>  <!-- colocar a especialidade do medico -->
+</div>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+</div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<aside class="w-64 flex flex-col bg-white dark:bg-[#161b22] border-r border-slate-200 dark:border-[#292e38] shrink-0 overflow-y-auto">
+<nav class="flex-1 p-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-[#1e232e] transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">home</span>
+                Início
+            </a>
+<a href="{% url 'home' %}" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-[#1e232e] transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+                Pacientes
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-primary bg-cyan-50 dark:bg-primary/10 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+                Novo Cadastro
+            </a>
+</nav>
+</aside>
+<main class="flex-1 overflow-y-auto bg-slate-50 dark:bg-background-dark scroll-smooth">
+<div class="max-w-5xl mx-auto px-6 py-8">
+<div class="mb-8">
+<div class="flex items-center justify-between">
+<div>
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Cadastro de Paciente</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Preencha os dados abaixo para registrar um novo paciente e associar o exame.</p>
+</div>
+</div>
+</div>
+<form class="space-y-6">
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#292e38] shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-[#292e38] flex items-center gap-3 bg-slate-50/50 dark:bg-surface-darker/50">
+<span class="material-symbols-outlined text-primary">person_add</span>
+<h3 class="font-semibold text-slate-900 dark:text-white">Dados Pessoais</h3>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-8">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="fullName">Nome Completo</label>
+<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="fullName" name="fullName" placeholder="Ex: Maria Helena Silva" required="" type="text"/>
+</div>
+<div class="md:col-span-4">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="cpf">CPF</label>
+<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="cpf" name="cpf" placeholder="000.000.000-00" type="text"/>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="dob">Data de Nascimento</label>
+<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white text-slate-500 transition-all" id="dob" name="dob" type="date"/>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="gender">Sexo Biológico</label>
+<select class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white transition-all" id="gender" name="gender">
+<option value="">Selecione...</option>
+<option selected="" value="female">Feminino</option>
+<option value="male">Masculino</option>
+</select>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="phone">Telefone / Celular</label>
+<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="phone" name="phone" placeholder="(00) 00000-0000" type="tel"/>
+</div>
+<div class="md:col-span-3">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="email">E-mail</label>
+<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="email" name="email" placeholder="nome@exemplo.com" type="email"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#292e38] shadow-sm flex flex-col h-full">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-[#292e38] flex items-center gap-3 bg-slate-50/50 dark:bg-surface-darker/50">
+<span class="material-symbols-outlined text-primary">clinical_notes</span>
+<h3 class="font-semibold text-slate-900 dark:text-white">Dados Clínicos</h3>
+</div>
+<div class="p-6 space-y-4 flex-1">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="hospital">Hospital / Unidade de Origem</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-[20px]">local_hospital</span>
+</span>
+<select class="w-full pl-10 bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white transition-all appearance-none" id="hospital" name="hospital">
+<option value="">Selecione o hospital...</option>
+<option value="hospital-santa-helena">Hospital Santa Helena</option>
+<option value="clinica-vida">Clínica Radiológica Vida</option>
+<option value="outros">Outros Hospitais</option>
+</select>
+<span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</span>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="doctor">Médico Solicitante</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-[20px]">stethoscope</span>
+</span>
+<input class="w-full pl-10 bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="doctor" placeholder="Dr. Nome do Médico" type="text"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="examType">Tipo de Exame</label>
+<select class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white transition-all" id="examType">
+<option value="mg">Mamografia Digital (MG)</option>
+<option value="tomo">Tomossíntese</option>
+<option value="us">Ultrassonografia Mamária</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="notes">Observações Clínicas</label>
+<textarea class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all resize-none" id="notes" placeholder="Breve histórico, queixas ou observações relevantes..." rows="3"></textarea>
+</div>
+<!-- <div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="allergies">Alergias</label>
+<textarea class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all resize-none" id="allergies" placeholder="Liste alergias a medicamentos, contraste ou outros materiais..." rows="3"></textarea>
+</div> -->
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#292e38] shadow-sm flex flex-col h-full">
+<div class="px-6 py-4 border-b border-slate-200 dark:border-[#292e38] flex items-center justify-between bg-slate-50/50 dark:bg-surface-darker/50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">imagesmode</span>
+<h3 class="font-semibold text-slate-900 dark:text-white">Imagem da Mamografia</h3>
+</div>
+<span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded font-medium">DICOM / JPG</span>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex-1 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-surface-darker/30 hover:bg-slate-100 dark:hover:bg-surface-darker/60 transition-colors cursor-pointer group flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" type="file"/>
+<div class="bg-white dark:bg-[#292e38] p-4 rounded-full shadow-sm mb-4 group-hover:scale-110 transition-transform duration-300 ring-1 ring-slate-200 dark:ring-slate-600">
+<span class="material-symbols-outlined text-3xl text-primary">cloud_upload</span>
+</div>
+<p class="text-sm font-medium text-slate-900 dark:text-white mb-1">
+                                    Clique para carregar ou arraste o arquivo
+                                </p>
+<p class="text-xs text-slate-500 dark:text-slate-400 max-w-[240px]">
+                                    Suporte para arquivos DICOM (.dcm), JPEG ou PNG. Tamanho máximo 50MB.
+                                </p>
+</div>
+<div class="mt-4 space-y-2 hidden">
+<div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-surface-darker rounded-lg border border-slate-200 dark:border-slate-700">
+<div class="size-10 bg-slate-200 dark:bg-slate-600 rounded flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-300">image</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-900 dark:text-white truncate">MAMMO_LCC_24102023.dcm</p>
+<p class="text-xs text-slate-500">12.4 MB • Carregado</p>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors" type="button">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-end gap-4 pt-6 border-t border-slate-200 dark:border-[#292e38]">
+<button class="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-50 dark:hover:bg-[#292e38] transition-colors focus:ring-2 focus:ring-slate-200" type="button">
+                        Cancelar
+                    </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary hover:bg-cyan-700 text-white font-semibold shadow-lg shadow-cyan-900/20 flex items-center gap-2 transition-all transform hover:-translate-y-0.5 active:translate-y-0 focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="submit">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                        Salvar Paciente
+                    </button>
+</div>
+</form>
+</div>
+</main>
+</div>
+
+</body></html>
