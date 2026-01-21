@@ -56,3 +56,10 @@ def register(request):
         request,
         'geral/register.html'
     )
+
+@login_required(login_url='login')
+def analise(request):
+    return render(
+        request,
+        'geral/analise.html'
+    )

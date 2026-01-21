@@ -83,36 +83,39 @@
 <span class="material-symbols-outlined text-primary">person_add</span>
 <h3 class="font-semibold text-slate-900 dark:text-white">Dados Pessoais</h3>
 </div>
-<div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-6">
-<div class="md:col-span-8">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="fullName">Nome Completo</label>
-<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="fullName" name="fullName" placeholder="Ex: Maria Helena Silva" required="" type="text"/>
-</div>
-<div class="md:col-span-4">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="cpf">CPF</label>
-<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="cpf" name="cpf" placeholder="000.000.000-00" type="text"/>
-</div>
-<div class="md:col-span-3">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="dob">Data de Nascimento</label>
-<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white text-slate-500 transition-all" id="dob" name="dob" type="date"/>
-</div>
-<div class="md:col-span-3">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="gender">Sexo Biológico</label>
-<select class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white transition-all" id="gender" name="gender">
-<option value="">Selecione...</option>
-<option selected="" value="female">Feminino</option>
-<option value="male">Masculino</option>
-</select>
-</div>
-<div class="md:col-span-3">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="phone">Telefone / Celular</label>
-<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="phone" name="phone" placeholder="(00) 00000-0000" type="tel"/>
-</div>
-<div class="md:col-span-3">
-<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="email">E-mail</label>
-<input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="email" name="email" placeholder="nome@exemplo.com" type="email"/>
-</div>
-</div>
+<form action="{% url 'register' %}"     method="post">
+    {% csrf_token %}
+    <div class="p-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+    <div class="md:col-span-8">
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="fullName">Nome Completo</label>
+    <input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="fullName" name="fullName" placeholder="Ex: Maria Helena Silva" required="" type="text"/>
+    </div>
+    <div class="md:col-span-4">
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="cpf">CPF</label>
+    <input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="cpf" name="cpf" placeholder="000.000.000-00" type="text"/>
+    </div>
+    <div class="md:col-span-3">
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="dob">Data de Nascimento</label>
+    <input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white text-slate-500 transition-all" id="dob" name="dob" type="date"/>
+    </div>
+    <div class="md:col-span-3">
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="gender">Sexo Biológico</label>
+    <select class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white transition-all" id="gender" name="gender">
+    <option value="">Selecione...</option>
+    <option selected="" value="female">Feminino</option>
+    <option value="male">Masculino</option>
+    </select>
+    </div>
+    <div class="md:col-span-3">
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="phone">Telefone / Celular</label>
+    <input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="phone" name="phone" placeholder="(00) 00000-0000" type="tel"/>
+    </div>
+    <div class="md:col-span-3">
+    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" for="email">E-mail</label>
+    <input class="w-full bg-white dark:bg-surface-darker border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white placeholder-slate-400 transition-all" id="email" name="email" placeholder="nome@exemplo.com" type="email"/>
+    </div>
+    </div>
+</form>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 <div class="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-[#292e38] shadow-sm flex flex-col h-full">
