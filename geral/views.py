@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
+from .models import Patient
+from django.core.paginator import Paginator
 
 def login(request):
     
@@ -27,7 +29,11 @@ def logout(request):
 
 @login_required(login_url='login')
 def home(request):
+    dados = Patient.objects.all()
+    page = Paginator(dados,5)
+    page_number = request.GET.get('page')
+    page_obj = page.get_page(page_number)
     return render(
         request,
-        'geral/home.html'
+        'geral/home.html', {'dados':page_obj  }
     )

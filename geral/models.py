@@ -22,6 +22,7 @@ class Exam(models.Model) :
     status = models.CharField(max_length=50, blank=True)
     report = models.TextField(blank=True)
     validated = models.BooleanField(default=False)
+    date = models.DateField(auto_now= True)
 
 class Institution(models.Model):
     logo = models.ImageField()
