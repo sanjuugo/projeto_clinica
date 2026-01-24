@@ -1,24 +1,30 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login as loginfn
 from django.http import HttpResponse
-from .models import Patient
+from .models import Patient, Doctor
 from django.core.paginator import Paginator
 
 def login(request):
     
     if request.method == 'POST':
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])      
         if user is not None:
             #return HttpResponse('Autenticou')
+            loginfn(request, user)
+            return redirect('home')
+            dados = Patient.objects.all()
+            page = Paginator(dados,5)
+            page_number = request.GET.get('page')
+            page_obj = page.get_page(page_number)
             return render(
-                        request,
-                        'geral/home.html'
-                    )
+                request,
+                'geral/home.html', {'dados':page_obj  }
+            )
         else:
             #return HttpResponse('Não Autenticou')
-            return redirect('login')
+            return redirect('home')
     return render(
         request,
         'geral/login.html'
@@ -58,8 +64,38 @@ def register(request):
     )
 
 @login_required(login_url='login')
-def analise(request):
+def analise(request, pacientes):
+    paciente = Patient.objects.get(id=pacientes)
     return render(
         request,
-        'geral/analise.html'
+        'geral/analise.html',
+        {
+            'paciente': paciente
+        }
+    )
+
+@login_required(login_url='login')
+def diagnostico(request, pacientes):
+    doutor = Doctor.objects.get(id=1)
+    paciente = Patient.objects.get(id=pacientes)
+    return render(
+        request,
+        'geral/diagnostico.html',
+        {
+            'doutor' : doutor, 
+            'paciente': paciente
+        }
+    )
+
+@login_required(login_url='login')
+def laudo(request, pacientes):
+    doutor = Doctor.objects.get(id=1)
+    paciente = Patient.objects.get(id=pacientes)
+    return render(
+        request,
+        'geral/laudo.html',
+        {
+            'doutor' : doutor, 
+            'paciente': paciente
+        }
     )
